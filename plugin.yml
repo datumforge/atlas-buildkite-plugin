@@ -1,14 +1,24 @@
 ---
-name: your name
-description: what your plugin does
+name: Atlas
+description: Ariga Atlas Database Tool for use with atlasgo.io
 author: Datum
 requirements:
-  - if you have requirements
+  - bash
+  - curl
 configuration:
   properties:
-    propertyname:
+    dir: # The URL of the migration directory to push
+      type: string
+    project: # The name (slug) of the project in Atlas Cloud
+      type: string
+    dev-url:  # The URL of the dev-database to use for analysis
+      type: string
+    default-branch: # Default branch, defaults to `${BUILDKITE_PIPELINE_DEFAULT_BRANCH}`
+      type: string
+    step: # step to run, lint, migrate, all (runs both). defaults to lint
       type: string
   required:
-    - if any properties are required
-  dependencies:
-    dependencyname: [dep]
+    - dir
+    - project
+    - dev-url
+  additionalProperties: false

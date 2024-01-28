@@ -1,8 +1,6 @@
-# Buildkite Plugin Template
+# Atlas Buildkite Plugin 
 
-Check the [buildkite organization](https://github.com/buildkite-plugins) or [website](https://buildkite.com/plugins) to see if your plugin already exists or we can contribute to it !
-
-Be sure to update this readme with your plugin information after using the template repository - for more info checkout Buildkite's documentation [here](https://buildkite.com/docs/plugins)
+Buildkite plugin that will lint and migrate atlas db schemas. 
 
 ## Example
 
@@ -12,11 +10,17 @@ Add the following to your `pipeline.yml`:
 
 ```yml
 steps:
-  - command: ls
-    plugins:
-      - a-github-user/file-counter#v1.0.0:
-          pattern: '*.md'
+  - plugins:
+      - datumforge/atlas#v0.0.1:
+          dir: file://db/migrations
+          project: datum
+          dev-url: sqlite://dev?mode=memory
+          step: all
 ```
+
+## Environment Variables
+
+The `ATLAS_CLOUD_TOKEN` is required to be set in the environment before the plugin can run
 
 ## Developing
 
@@ -32,3 +36,11 @@ To run the tests:
 ```shell
 task test
 ```
+
+## Contributing
+
+1. Fork the repo
+2. Make the changes
+3. Run the tests
+4. Commit and push your changes
+5. Send a pull request
