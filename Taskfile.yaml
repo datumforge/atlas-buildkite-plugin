@@ -1,0 +1,11 @@
+version: "3"
+
+tasks:
+  lint:
+    desc: runs the buildkite compose linter
+    cmds:
+      - docker compose run --rm lint
+  test:
+    desc: runs the buildkite plugin tester
+    cmds:
+      - docker compose run --rm tests
