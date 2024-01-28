@@ -3,8 +3,8 @@
 load "$BATS_PLUGIN_PATH/load.bash"
 
 # Uncomment the following line to debug stub failures
-export BUILDKITE_AGENT_STUB_DEBUG=/dev/tty
-export WHICH_STUB_DEBUG=/dev/tty
+# export BUILDKITE_AGENT_STUB_DEBUG=/dev/tty
+# export WHICH_STUB_DEBUG=/dev/tty
 
 @test "default step" {
   export BUILDKITE_PIPELINE_DEFAULT_BRANCH="main"
@@ -130,4 +130,42 @@ export WHICH_STUB_DEBUG=/dev/tty
 
   unstub atlas
 }
+
+@test "missing project" {
+  export BUILDKITE_PIPELINE_DEFAULT_BRANCH="main"
+  export BUILDKITE_BRANCH="meow"
+  export BUILDKITE_PLUGIN_ATLAS_DEV_URL="sqlite://dev?mode=memory&_fk=1"
+  export BUILDKITE_PLUGIN_ATLAS_DIR="file://db/migrations"
+
+  run "$PWD/hooks/command"
+
+  assert_failure
+  assert_output --partial " BUILDKITE_PLUGIN_ATLAS_PROJECT: unbound variable"
+}
+
+@test "missing dir" {
+  export BUILDKITE_PIPELINE_DEFAULT_BRANCH="main"
+  export BUILDKITE_BRANCH="meow"
+  export BUILDKITE_PLUGIN_ATLAS_DEV_URL="sqlite://dev?mode=memory&_fk=1"
+  export BUILDKITE_PLUGIN_ATLAS_PROJECT="meow"
+
+  run "$PWD/hooks/command"
+
+  assert_failure
+  assert_output --partial " BUILDKITE_PLUGIN_ATLAS_DIR: unbound variable"
+}
+
+@test "missing url" {
+  export BUILDKITE_PIPELINE_DEFAULT_BRANCH="main"
+  export BUILDKITE_BRANCH="meow"
+  export BUILDKITE_PLUGIN_ATLAS_DIR="file://db/migrations"
+  export BUILDKITE_PLUGIN_ATLAS_PROJECT="meow"
+
+  run "$PWD/hooks/command"
+
+  assert_failure
+  assert_output --partial " BUILDKITE_PLUGIN_ATLAS_DEV_URL: unbound variable"
+}
+
+
 
