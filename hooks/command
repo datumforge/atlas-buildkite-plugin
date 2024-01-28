@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -o errexit # script exits when a command fails == set -e
+set -o nounset # script exits when tries to use undeclared variables == set -u
+set -o pipefail # causes pipelines to retain / set the last non-zero status
+
+default_branch=${BUILDKITE_PLUGIN_ATLAS_DEFAULT_BRANCH:-${BUILDKITE_PIPELINE_DEFAULT_BRANCH}}
+dev_url=${BUILDKITE_PLUGIN_ATLAS_DEV_URL}
+project=${BUILDKITE_PLUGIN_ATLAS_PROJECT}
+dir=${BUILDKITE_PLUGIN_ATLAS_DIR}
+step=${BUILDKITE_PLUGIN_ATLAS_STEP:-lint}
+
+# Lint and Validate
+if [ "${step}" = "lint" ] || [ "${step}" = "all" ]; then
+    echo +++ :database: lint
+    atlas migrate lint --dev-url "${dev_url}" --dir "${dir}" 
+    atlas migrate validate --dev-url "${dev_url}" --dir "${dir}"
+fi
+
+# Migrate
+if [ "${step}" = "migrate" ] || [ "${step}" = "all" ]; then
+    echo +++ :rocket: migrate
+    if [ "${BUILDKITE_BRANCH}" = "${default_branch}" ]; then
+        atlas migrate push "${project}" --dev-url "${dev_url}" --dir "${dir}"
+    else 
+        echo not pushing migration, not running against "${default_branch}" branch
+    fi
+fi
+
+exit 0

@@ -14,4 +14,4 @@ steps:
   - label: ":sparkles: Lint"
     plugins:
       plugin-linter#v3.2.0:
-        id: docker-login
+        id: datumforge/atlas
