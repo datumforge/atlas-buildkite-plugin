@@ -1,10 +1,8 @@
 # Atlas Buildkite Plugin 
 
-Buildkite plugin that will lint and migrate atlas db schemas. 
+Buildkite plugin that will `lint` and `migrate` [atlas](https://atlasgo.io/cloud/) db schemas
 
 ## Example
-
-Provide an example of using this plugin, like so:
 
 Add the following to your `pipeline.yml`:
 
@@ -23,8 +21,6 @@ steps:
 The `ATLAS_CLOUD_TOKEN` is required to be set in the environment before the plugin can run
 
 ## Developing
-
-Provide examples on how to modify and test, e.g.:
 
 To run the linter:
 ```shell
