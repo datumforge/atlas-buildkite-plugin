@@ -10,6 +10,7 @@ load "$BATS_PLUGIN_PATH/load.bash"
   export ATLAS_CLOUD_TOKEN="testtoken"
 
   stub which 'atlas : echo /usr/bin/atlas'
+  stub which 'jq : echo /usr/bin/jq'
 
   stub atlas \
     'login --token $ATLAS_CLOUD_TOKEN : echo You are now connected to meow on Atlas Cloud'
@@ -18,6 +19,7 @@ load "$BATS_PLUGIN_PATH/load.bash"
 
   assert_success
   assert_output --partial "/usr/bin/atlas"
+  assert_output --partial "/usr/bin/jq"
   assert_output --partial "connected"
 
   unstub which

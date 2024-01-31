@@ -10,6 +10,7 @@ steps:
     plugins:
       docker-compose#v4.16.0:
         run: tests
+        cli-version: 2
 
   - label: ":sparkles: Lint"
     plugins:

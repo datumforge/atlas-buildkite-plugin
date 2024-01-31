@@ -14,7 +14,7 @@ load "$BATS_PLUGIN_PATH/load.bash"
   export BUILDKITE_PLUGIN_ATLAS_PROJECT="meow"
 
   stub atlas \
-    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo lint' \
+    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" : echo lint' \
     'migrate validate --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo validate' \
 
   run "$PWD/hooks/command"
@@ -36,13 +36,13 @@ load "$BATS_PLUGIN_PATH/load.bash"
   export BUILDKITE_PLUGIN_ATLAS_STEP="lint"
 
   stub atlas \
-    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo lint' \
+    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" : echo lint' \
     'migrate validate --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo validate' \
 
   run "$PWD/hooks/command"
 
   assert_success
-  assert_output --partial "+++ :database: lint"
+  assert_output --partial "+++ :database: lint and validate"
   assert_output --partial "lint"
   assert_output --partial "validate"
 
@@ -91,7 +91,7 @@ load "$BATS_PLUGIN_PATH/load.bash"
   export BUILDKITE_PLUGIN_ATLAS_STEP="all"
 
   stub atlas \
-    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo lint' \
+    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" : echo lint' \
     'migrate validate --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo validate' \
     'migrate push $BUILDKITE_PLUGIN_ATLAS_PROJECT --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo push' \
 
@@ -102,6 +102,7 @@ load "$BATS_PLUGIN_PATH/load.bash"
   assert_output --partial "+++ :database: lint"
   assert_output --partial "lint"
   assert_output --partial "validate"
+  assert_output --partial "+++ :rocket: push"
   assert_output --partial "push"
 
   unstub atlas
@@ -116,7 +117,7 @@ load "$BATS_PLUGIN_PATH/load.bash"
   export BUILDKITE_PLUGIN_ATLAS_STEP="all"
 
   stub atlas \
-    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo lint' \
+    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" : echo lint' \
     'migrate validate --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo validate' \
 
 
@@ -126,6 +127,7 @@ load "$BATS_PLUGIN_PATH/load.bash"
   assert_output --partial "+++ :database: lint"
   assert_output --partial "lint"
   assert_output --partial "validate"
+  assert_output --partial "+++ :rocket: push"
   assert_output --partial "not pushing migration"
 
   unstub atlas
