@@ -37,17 +37,17 @@ function main() {
             result=1
             echo -e  ":scream_cat: errors found\n" | buildkite-agent annotate --context "atlas" --style "error" --append
             echo -e  "**Errors**:\n" | buildkite-agent annotate --context "atlas" --append
-            echo -e "$(echo "$error_results" |jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )')\n" | buildkite-agent annotate --context "atlas" --append 
+            echo -e "$(echo "$error_results" |jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )')\n\n" | buildkite-agent annotate --context "atlas" --append 
             if [[ "$warning_results" != ""&& "$warning_results" != "null" ]]; then
             echo -e  "**Warnings**:\n" | buildkite-agent annotate --context "atlas" --append
-            echo -e "$(echo "$warning_results" |jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )')\n" | buildkite-agent annotate --context "atlas" --append 
+            echo -e "$(echo "$warning_results" |jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )')\n\n" | buildkite-agent annotate --context "atlas" --append 
             fi
         elif [[ "$warning_results" != "" && "$warning_results" != "null" ]]; then
             # do not error on warnings
             result=0
             echo -e  ":smirk_cat: warnings found\n" | buildkite-agent annotate --context "atlas" --style "warning" --append
             echo -e  "**Warnings**:\n" | buildkite-agent annotate --context "atlas" --append
-            echo -e "$(echo "$warning_results" |jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )')\n" | buildkite-agent annotate --context "atlas" --append 
+            echo -e "$(echo "$warning_results" |jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )')\n\n" | buildkite-agent annotate --context "atlas" --append 
         else 
             result=0
             echo -e  ":heart_eyes_cat: no errors found, congrats!\n"| buildkite-agent annotate --context "atlas" --style "success"  --append
