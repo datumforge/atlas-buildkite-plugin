@@ -25,7 +25,6 @@ function main() {
         
         # Run the lint command with the web client, and output to json
         lint_result=$(atlas migrate lint --dev-url "${dev_url}" --dir "${dir}" -w --format "{{ json .  }}")
-        result=$?
 
         # Parse the results to display on the top of the buildkite job
         lint_result="$lint_result" parse_lint_result
@@ -34,16 +33,20 @@ function main() {
         echo -e "\`atlas migrate lint\` results: " | buildkite-agent annotate --context atlas
 
         # Check for error results, warning results, otherwise it was successful
-        if [[ $error_results != "" ]]; then
+        if [[ "$error_results" != "" && "$error_results" != "null" ]]; then
+            result=1
             echo -e  ":scream_cat: errors found\n" | buildkite-agent annotate --context "atlas" --style "error" --append
             echo -e "\`\`\`term\n $(echo "$error_results" | jq) \n\`\`\`" | buildkite-agent annotate --context "atlas" --append 
-            if [[ "$warning_results" != "" ]]; then
+            if [[ "$warning_results" != ""&& "$warning_results" != "null" ]]; then
                 echo -e "\`\`\`term\n $(echo "$warning_results" | jq) \n\`\`\`" | buildkite-agent annotate --context "atlas"  --append
             fi
-        elif [[ "$warning_results" != "" ]]; then
+        elif [[ "$warning_results" != "" && "$warning_results" != "null" ]]; then
+            # do not error on warnings
+            result=0
             echo -e  ":smirk_cat: warnings found\n" | buildkite-agent annotate --context "atlas" --style "warning" --append
             echo -e "\`\`\`term\n $(echo "$warning_results" | jq) \n\`\`\`" | buildkite-agent annotate --context "atlas" --append
         else 
+            result=0
             echo -e  ":heart_eyes_cat: no errors found, congrats!\n"| buildkite-agent annotate --context "atlas" --style "success"  --append
         fi
 
