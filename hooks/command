@@ -96,13 +96,17 @@ function parse_lint_result () {
     | select(.Reports != null) 
     | .Reports 
     | map(select(.Text == "destructive changes detected"))
-    | .[0].Diagnostics')
+    | .[0].Diagnostics'
+        | jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )' 
+    )
 
     warning_results=$(echo "$lint_result" | jq '.Files[0] 
     | select(.Reports != null) 
     | .Reports 
     | map(select(.Text == "data dependent changes detected"))
-    | .[0].Diagnostics')
+    | .[0].Diagnostics' 
+    | jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )' 
+    )
 
     # Display these in the logs 
     echo "$warning_results" |jq
