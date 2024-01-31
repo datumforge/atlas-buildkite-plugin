@@ -36,15 +36,15 @@ function main() {
         if [[ "$error_results" != "" && "$error_results" != "null" ]]; then
             result=1
             echo -e  ":scream_cat: errors found\n" | buildkite-agent annotate --context "atlas" --style "error" --append
-            echo -e "\`\`\`term\n $(echo "$error_results" | jq) \n\`\`\`" | buildkite-agent annotate --context "atlas" --append 
+            echo -e "$(echo "$error_results" |jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )')" | buildkite-agent annotate --context "atlas" --append 
             if [[ "$warning_results" != ""&& "$warning_results" != "null" ]]; then
-                echo -e "\`\`\`term\n $(echo "$warning_results" | jq) \n\`\`\`" | buildkite-agent annotate --context "atlas"  --append
+            echo -e "$(echo "$warning_results" |jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )')" | buildkite-agent annotate --context "atlas" --append 
             fi
         elif [[ "$warning_results" != "" && "$warning_results" != "null" ]]; then
             # do not error on warnings
             result=0
             echo -e  ":smirk_cat: warnings found\n" | buildkite-agent annotate --context "atlas" --style "warning" --append
-            echo -e "\`\`\`term\n $(echo "$warning_results" | jq) \n\`\`\`" | buildkite-agent annotate --context "atlas" --append
+            echo -e "$(echo "$warning_results" |jq -r '"Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )')" | buildkite-agent annotate --context "atlas" --append 
         else 
             result=0
             echo -e  ":heart_eyes_cat: no errors found, congrats!\n"| buildkite-agent annotate --context "atlas" --style "success"  --append
@@ -96,17 +96,13 @@ function parse_lint_result () {
     | select(.Reports != null) 
     | .Reports 
     | map(select(.Text == "destructive changes detected"))
-    | .[0].Diagnostics
-    | Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )' 
-    )
+    | .[0].Diagnostics')
 
     warning_results=$(echo "$lint_result" | jq '.Files[0] 
     | select(.Reports != null) 
     | .Reports 
     | map(select(.Text == "data dependent changes detected"))
-    | .[0].Diagnostics
-    | Position | Text | Code", "---| --- |----", (.[] | "\(.Pos) | \(.Text)| \(.Code)" )' 
-    )
+    | .[0].Diagnostics') 
 
     # Display these in the logs 
     echo "$warning_results" |jq
