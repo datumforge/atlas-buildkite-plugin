@@ -7,6 +7,9 @@ set -o pipefail # causes pipelines to retain / set the last non-zero status
 # Install atlas, if not available
 which atlas || (curl -sSf https://atlasgo.sh | sh -s -- -y)
 
+# Install jq, if not available
+which jq || (apt-get install jq)
+
 # Login to atlas 
 atlas login --token "${ATLAS_CLOUD_TOKEN}"
 

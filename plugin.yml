@@ -17,6 +17,8 @@ configuration:
       type: string
     step: # step to run, lint, migrate, all (runs both). defaults to lint
       type: string
+    debug: 
+      type: string
   required:
     - dir
     - project
