@@ -4,7 +4,7 @@ tasks:
   install:
     desc: install packages required for working with this repo
     cmds:
-      - "brew install shellcheck"
+      - brew install shellcheck
   
   shellcheck:
     desc: shellcheck
