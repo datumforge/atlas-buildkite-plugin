@@ -1,3 +1,5 @@
+[![Build status](https://badge.buildkite.com/13f3af0eff5da18c35e2f5f48831f28b395d0adee4c940c92e.svg?branch=main)](https://buildkite.com/datum/atlas-buildkite-plugin)
+
 # Atlas Buildkite Plugin 
 
 Buildkite plugin that will `lint` and `migrate` [atlas](https://atlasgo.io/cloud/) db schemas
