@@ -12,9 +12,17 @@ load "$BATS_PLUGIN_PATH/load.bash"
   export BUILDKITE_PLUGIN_ATLAS_DEV_URL="sqlite://dev?mode=memory&_fk=1"
   export BUILDKITE_PLUGIN_ATLAS_DIR="file://db/migrations"
   export BUILDKITE_PLUGIN_ATLAS_PROJECT="meow"
+  export BUILDKITE_COMMIT="24160da9f34e863b2d8fcc1fe6599d868e19f6b7"
+  export CONTEXT=$(cat <<EOF
+{
+    "branch": "funk",
+    "commit": "24160da9f34e863b2d8fcc1fe6599d868e19f6b7"
+}
+EOF
+)
 
   stub atlas \
-    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" : echo lint' \
+    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" --context "$CONTEXT" : echo lint' \
     'migrate validate --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo validate' \
 
   run "$PWD/hooks/command"
@@ -34,9 +42,17 @@ load "$BATS_PLUGIN_PATH/load.bash"
   export BUILDKITE_PLUGIN_ATLAS_DIR="file://db/migrations"
   export BUILDKITE_PLUGIN_ATLAS_PROJECT="meow"
   export BUILDKITE_PLUGIN_ATLAS_STEP="lint"
+  export BUILDKITE_COMMIT="24160da9f34e863b2d8fcc1fe6599d868e19f6b7"
+  export CONTEXT=$(cat <<EOF
+{
+    "branch": "funk",
+    "commit": "24160da9f34e863b2d8fcc1fe6599d868e19f6b7"
+}
+EOF
+)
 
   stub atlas \
-    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" : echo lint' \
+    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" --context "$CONTEXT" : echo lint' \
     'migrate validate --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo validate' \
 
   run "$PWD/hooks/command"
@@ -56,9 +72,17 @@ load "$BATS_PLUGIN_PATH/load.bash"
   export BUILDKITE_PLUGIN_ATLAS_DIR="file://db/migrations"
   export BUILDKITE_PLUGIN_ATLAS_PROJECT="meow"
   export BUILDKITE_PLUGIN_ATLAS_STEP="migrate"
-
+  export BUILDKITE_COMMIT="24160da9f34e863b2d8fcc1fe6599d868e19f6b7"
+  export CONTEXT=$(cat <<EOF
+{
+    "branch": "main",
+    "commit": "24160da9f34e863b2d8fcc1fe6599d868e19f6b7"
+}
+EOF
+)
+  
   stub atlas \
-    'migrate push $BUILDKITE_PLUGIN_ATLAS_PROJECT --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo push' \
+    'migrate push $BUILDKITE_PLUGIN_ATLAS_PROJECT --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR --context "$CONTEXT" : echo push' \
 
   run "$PWD/hooks/command"
 
@@ -89,11 +113,19 @@ load "$BATS_PLUGIN_PATH/load.bash"
   export BUILDKITE_PLUGIN_ATLAS_DIR="file://db/migrations"
   export BUILDKITE_PLUGIN_ATLAS_PROJECT="meow"
   export BUILDKITE_PLUGIN_ATLAS_STEP="all"
+  export BUILDKITE_COMMIT="24160da9f34e863b2d8fcc1fe6599d868e19f6b7"
+  export CONTEXT=$(cat <<EOF
+{
+    "branch": "main",
+    "commit": "24160da9f34e863b2d8fcc1fe6599d868e19f6b7"
+}
+EOF
+)
 
   stub atlas \
-    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" : echo lint' \
+    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" --context "$CONTEXT" : echo lint' \
     'migrate validate --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo validate' \
-    'migrate push $BUILDKITE_PLUGIN_ATLAS_PROJECT --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo push' \
+    'migrate push $BUILDKITE_PLUGIN_ATLAS_PROJECT --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR --context "$CONTEXT" : echo push' \
 
 
   run "$PWD/hooks/command"
@@ -115,9 +147,17 @@ load "$BATS_PLUGIN_PATH/load.bash"
   export BUILDKITE_PLUGIN_ATLAS_DIR="file://db/migrations"
   export BUILDKITE_PLUGIN_ATLAS_PROJECT="meow"
   export BUILDKITE_PLUGIN_ATLAS_STEP="all"
+  export BUILDKITE_COMMIT="24160da9f34e863b2d8fcc1fe6599d868e19f6b7"
+  export CONTEXT=$(cat <<EOF
+{
+    "branch": "meow",
+    "commit": "24160da9f34e863b2d8fcc1fe6599d868e19f6b7"
+}
+EOF
+)
 
   stub atlas \
-    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" : echo lint' \
+    'migrate lint --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR -w --format "{{ json .  }}" --context "$CONTEXT" : echo lint' \
     'migrate validate --dev-url $BUILDKITE_PLUGIN_ATLAS_DEV_URL --dir $BUILDKITE_PLUGIN_ATLAS_DIR : echo validate' \
 
 
