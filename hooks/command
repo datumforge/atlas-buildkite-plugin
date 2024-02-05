@@ -32,7 +32,7 @@ function main() {
         echo +++ :database: lint and validate
         
         # Run the lint command with the web client, and output to json
-        lint_result=$(atlas migrate lint --dev-url "${dev_url}" --dir "${dir}" -w --format "{{ json .  }}")
+        lint_result=$(atlas migrate lint --dev-url "${dev_url}" --dir "${dir}" -w --format "{{ json .  }}" --context "${atlas_context}" ) 
 
         # Parse the results to display on the top of the buildkite job
         lint_result="$lint_result" parse_lint_result
