@@ -10,6 +10,14 @@ dir=${BUILDKITE_PLUGIN_ATLAS_DIR}
 step=${BUILDKITE_PLUGIN_ATLAS_STEP:-lint}
 debug=${BUILDKITE_PLUGIN_ATLAS_DEBUG:-false}
 
+atlas_context=$(cat <<EOF
+{
+    "branch": "$BUILDKITE_BRANCH",
+    "commit": "$BUILDKITE_COMMIT"
+}
+EOF
+)
+
 if [[ "$debug" == "true" ]]; then   
     set -o xtrace # trace what's executed == set -x (useful for debugging)
 fi
@@ -73,7 +81,7 @@ function main() {
         echo +++ :rocket: push migrations
         # only push on the default branch
         if [ "${BUILDKITE_BRANCH}" = "${default_branch}" ]; then
-            atlas migrate push "${project}" --dev-url "${dev_url}" --dir "${dir}"
+            atlas migrate push "${project}" --dev-url "${dev_url}" --dir "${dir}" --context "${atlas_context}"
             result=$?
         else 
             echo not pushing migration, not running against "${default_branch}" branch
