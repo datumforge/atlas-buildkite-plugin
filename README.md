@@ -2,7 +2,7 @@
 
 # Atlas Buildkite Plugin 
 
-Buildkite plugin that will `lint` and `migrate` [atlas](https://atlasgo.io/cloud/) db schemas
+Buildkite plugin that will `lint`, `migrate` and `push` [atlas](https://atlasgo.io/cloud/) db schemas
 
 ## Example
 
@@ -20,7 +20,8 @@ steps:
 
 ## Environment Variables
 
-The `ATLAS_CLOUD_TOKEN` is required to be set in the environment before the plugin can run
+1. `ATLAS_CLOUD_TOKEN` is required to be set in the environment before the plugin can run
+1. `TURSO_TOKEN` is required if you are applying your schema to a turso database
 
 ## Developing
 

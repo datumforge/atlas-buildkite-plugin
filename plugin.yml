@@ -13,9 +13,13 @@ configuration:
       type: string
     dev-url:  # The URL of the dev-database to use for analysis
       type: string
+    apply-env: # The environment to apply the migration to, defaults to turso
+      type: string
+    atlas-config: # The path to the atlas hcl config file, defaults to `file://atlas.hcl`
+      type: string
     default-branch: # Default branch, defaults to `${BUILDKITE_PIPELINE_DEFAULT_BRANCH}`
       type: string
-    step: # step to run, lint, migrate, all (runs both). defaults to lint
+    step: # step to run, lint, migrate, push, all (runs all three). defaults to lint
       type: string
     debug: 
       type: string
