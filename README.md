@@ -11,7 +11,7 @@ Add the following to your `pipeline.yml`:
 ```yml
 steps:
   - plugins:
-      - datumforge/atlas#v0.0.2:
+      - datumforge/atlas#v0.0.3:
           dir: file://db/migrations
           project: datum
           dev-url: sqlite://dev?mode=memory
